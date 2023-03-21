@@ -1,8 +1,14 @@
-export function FavoritesNew() {
+export function FavoritesNew(props) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const params = new FormData(event.target);
+    props.onCreateFavorite(params, () => event.target.reset());
+  };
+
   return (
     <div>
       <h1>New Favorite game</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           User_id: <input name="user_id" type="text" />
         </div>
