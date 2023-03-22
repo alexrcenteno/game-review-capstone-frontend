@@ -4,6 +4,9 @@ import { GamesIndex } from "./GamesIndex";
 import { FavoritesNew } from "./FavoritesNew";
 import { GamesShow } from "./GamesShow";
 import { Modal } from "./Modal";
+import { Login } from "./Login";
+import { Signup } from "./Signup";
+import { LogoutLink } from "./LogoutLink";
 
 export function Content() {
   const [favorites, setFavorites] = useState([]);
@@ -13,20 +16,17 @@ export function Content() {
 
   const handleIndexGames = () => {
     console.log("handleIndexGames");
-    axios.get("http://localhost:3000/games.json").then((response) => {
+    axios.get("http://localhost:3000/games.json/?=favorites").then((response) => {
       console.log(response.data);
       setGames(response.data);
       console.log(games);
     });
   };
 
-  useEffect(handleIndexGames, []);
-
-  const handleCreateFavorite = (params, successCallBack) => {
+  const handleCreateFavorite = (params) => {
     console.log("handleCreateFavorite", params);
     axios.post("http://localhost:3000/favorites.json", params).then((response) => {
       setFavorites([...favorites, response.data]);
-      successCallBack();
     });
   };
 
@@ -40,15 +40,25 @@ export function Content() {
     console.log("handleClose");
     setIsGamesShowVisible(false);
   };
-  const logGames = () => {
-    console.log(games);
+
+  const handleDestroyFavorite = (favorite) => {
+    console.log("handleDestroyFavorite", favorite);
+    axios.delete(`http://localhost:3000/favorites/${favorite.id}.json`).then((response) => {
+      // setFavorites(favorites.filter((p) => p.id !== favorite));
+    });
   };
+
+  useEffect(handleIndexGames, []);
+
   return (
     <div>
-      <GamesIndex games={games} onShowGame={handleShowGame} />
+      <Signup />
+      <Login />
+      <LogoutLink />
+      <GamesIndex games={games} onShowGame={handleShowGame} onCreateFavorite={handleCreateFavorite} />
       <FavoritesNew onCreateFavorite={handleCreateFavorite} />
       <Modal show={isGamesShowVisible} onClose={handleClose}>
-        <GamesShow game={currentGame} />
+        <GamesShow game={currentGame} onDestroyFavorite={handleDestroyFavorite} />
       </Modal>
     </div>
   );
