@@ -11,6 +11,7 @@ export function GamesIndex(props) {
           <p>Description: {game.description}</p>
           <p>Genre: {game.genre}</p>
           <button onClick={() => props.onShowGame(game)}>More info</button>
+          <button onClick={() => props.onShowGame(game)}>Favorite</button>
         </div>
       ))}
     </div>

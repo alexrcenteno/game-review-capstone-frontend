@@ -50,7 +50,6 @@ export function Content() {
       <Modal show={isGamesShowVisible} onClose={handleClose}>
         <GamesShow game={currentGame} />
       </Modal>
-      <button onClick={logGames}>hello</button>
     </div>
   );
 }
