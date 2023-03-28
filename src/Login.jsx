@@ -19,6 +19,8 @@ export function Login() {
         console.log(response.data);
         axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;
         localStorage.setItem("jwt", response.data.jwt);
+        localStorage.setItem("user_id", response.data.user_id);
+        console.log(response.data.user_id);
         event.target.reset();
         window.location.href = "/"; // Change this to hide a modal, redirect to a specific page, etc.
       })
@@ -30,17 +32,17 @@ export function Login() {
 
   return (
     <div id="login">
-      <h1>Login</h1>
+      <h1 className="text-muted">Login</h1>
       <ul>
         {errors.map((error) => (
           <li key={error}>{error}</li>
         ))}
       </ul>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="text-light">
           Email: <input name="email" type="email" />
         </div>
-        <div>
+        <div className="text-light">
           Password: <input name="password" type="password" />
         </div>
         <button type="submit">Login</button>

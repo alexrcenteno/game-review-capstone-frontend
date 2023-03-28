@@ -1,17 +1,24 @@
+import { FavoritesNew } from "./FavoritesNew";
+
 export function GamesShow(props) {
-  const handleClick = () => {
-    props.onDestroyFavorite(props.favorite);
+  const handleSubmit = (game) => {
+    const params = { game_id: game.id };
+    props.onCreateFavorite(params);
+  };
+
+  const handleDestroy = (game) => {
+    props.onDestroyFavorite(game.favorite.id);
   };
 
   return (
     <div>
       <h1>Game information</h1>
       <p>Name: {props.game.name}</p>
-      <p>Url: {props.game.url}</p>
-      <p>Image_url: {props.game.image_url}</p>
-      <p>Description: {props.game.description}</p>
-      <p>Genre: {props.game.genre}</p>
-      <form>
+      <p>Rating: {props.game.rating}</p>
+      <p>Playtime: {props.game.playtime}</p>
+      <p>Release Date: {props.game.released}</p>
+      {/* <p>Genre: {props.game.genre}</p> */}
+      {/* <form>
         <div>
           Name: <input defaultValue={props.game.name} name="name" type="text" />
         </div>
@@ -27,8 +34,16 @@ export function GamesShow(props) {
         <div>
           Genre: <input defaultValue={props.game.genre} name="genre" type="text" />
         </div>
-      </form>
-      <button onClick={handleClick}>Delete Favorite</button>
+      </form> */}
+      {props.game.favorite ? (
+        <a className="btn btn-primary" onClick={() => handleDestroy(props.game)}>
+          Delete favorite
+        </a>
+      ) : (
+        <a className="btn btn-primary" onClick={() => handleSubmit(props.game)}>
+          Favorite
+        </a>
+      )}
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { Login } from "./Login";
 import { Signup } from "./Signup";
 import { LogoutLink } from "./LogoutLink";
 
-export function Content() {
+export function Content(props) {
   const [favorites, setFavorites] = useState([]);
   const [isGamesShowVisible, setIsGamesShowVisible] = useState(false);
   const [games, setGames] = useState([]);
@@ -16,7 +16,7 @@ export function Content() {
 
   const handleIndexGames = () => {
     console.log("handleIndexGames");
-    axios.get("http://localhost:3000/games.json/?=favorites").then((response) => {
+    axios.get("http://localhost:3000/games.json").then((response) => {
       console.log(response.data);
       setGames(response.data);
       console.log(games);
@@ -25,9 +25,7 @@ export function Content() {
 
   const handleCreateFavorite = (params) => {
     console.log("handleCreateFavorite", params);
-    axios.post("http://localhost:3000/favorites.json", params).then((response) => {
-      setFavorites([...favorites, response.data]);
-    });
+    axios.post("http://localhost:3000/favorites.json", params).then(() => handleIndexGames());
   };
 
   const handleShowGame = (game) => {
@@ -41,24 +39,35 @@ export function Content() {
     setIsGamesShowVisible(false);
   };
 
-  const handleDestroyFavorite = (favorite) => {
-    console.log("handleDestroyFavorite", favorite);
-    axios.delete(`http://localhost:3000/favorites/${favorite.id}.json`).then((response) => {
-      // setFavorites(favorites.filter((p) => p.id !== favorite));
-    });
+  const handleDestroyFavorite = (id) => {
+    console.log("handleDestroyFavorite", id);
+    axios.delete(`http://localhost:3000/favorites/${id}.json`).then(() => handleIndexGames());
   };
 
   useEffect(handleIndexGames, []);
 
   return (
-    <div>
-      <Signup />
-      <Login />
+    <div className="container">
+      <Modal show={props.isSignupShowVisible} onClose={props.handleSignupClose}>
+        <Signup />
+      </Modal>
+      <Modal show={props.isLoginShowVisible} onClose={props.handleLoginClose}>
+        <Login />
+      </Modal>
       <LogoutLink />
-      <GamesIndex games={games} onShowGame={handleShowGame} onCreateFavorite={handleCreateFavorite} />
+      <GamesIndex
+        games={games}
+        onShowGame={handleShowGame}
+        onCreateFavorite={handleCreateFavorite}
+        onDestroyFavorite={handleDestroyFavorite}
+      />
       <FavoritesNew onCreateFavorite={handleCreateFavorite} />
       <Modal show={isGamesShowVisible} onClose={handleClose}>
-        <GamesShow game={currentGame} onDestroyFavorite={handleDestroyFavorite} />
+        <GamesShow
+          game={currentGame}
+          onDestroyFavorite={handleDestroyFavorite}
+          onCreateFavorite={handleCreateFavorite}
+        />
       </Modal>
     </div>
   );

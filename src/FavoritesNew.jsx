@@ -6,14 +6,18 @@ export function FavoritesNew(props) {
   };
 
   return (
-    <div>
-      <h1>New Favorite game</h1>
+    <div className="text-light">
+      {/* <h1>New Favorite game</h1>
       <form onSubmit={handleSubmit}>
         <div>
           Game_id: <input name="game_id" type="text" />
         </div>
-        <button type="submit">Create favorite game</button>
+        <button type="submit">Favorite game</button>
       </form>
+      <div>
+        Game_id: <input name="game_id" type="text" />
+      </div>
+      <button type="submit">Delete Favorite</button> */}
     </div>
   );
 }

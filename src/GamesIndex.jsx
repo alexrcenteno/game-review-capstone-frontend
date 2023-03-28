@@ -3,21 +3,43 @@ export function GamesIndex(props) {
     const params = { game_id: game.id };
     props.onCreateFavorite(params);
   };
+
+  const handleDestroy = (game) => {
+    props.onDestroyFavorite(game.favorite.id);
+  };
   return (
-    <div>
+    <div className="text-muted">
       <h1>All Games</h1>
-      {props.games.map((game) => (
-        <div key={game.id}>
-          <h2>{game.name}</h2>
-          <img src={game.url} />
-          <p>Name: {game.name}</p>
-          <p>Image_url: {game.image_url}</p>
-          <p>Description: {game.description}</p>
-          <p>Genre: {game.genre}</p>
-          <button onClick={() => props.onShowGame(game)}>More info</button>
-          <button onClick={() => handleSubmit(game)}>Favorite</button>
-        </div>
-      ))}
+
+      <div className="row justify-content-center">
+        {props.games?.map((game) => (
+          <div key={game.id} className="col mb-3 mb-sm-0">
+            <div className="card bg-dark text-white" style={{ width: "18rem" }}>
+              <img src={game.background_image} className="card-img-top" alt="..." />
+              <div className="card-body">
+                <h5 className="card-title">{game.name}</h5>
+                <p className="card-text">{game.description}</p>
+                <button className="btn btn-primary" onClick={() => props.onShowGame(game)}>
+                  More info
+                </button>
+                {game.favorite ? (
+                  <>
+                    <a className="btn btn-primary" onClick={() => handleDestroy(game)}>
+                      Delete favorite
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <a className="btn btn-primary" onClick={() => handleSubmit(game)}>
+                      Favorite
+                    </a>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

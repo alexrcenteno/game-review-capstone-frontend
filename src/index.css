@@ -1,3 +1,19 @@
+#games-index img {
+  width: 300px;
+}
+
 html {
   scroll-behavior: smooth;
 }
+
+#root  { 
+	font-family: Georgia,Times,Times New Roman,serif; 
+  background-image: url('./assets/pexels-marko-blazevic-2708981.jpg');
+  background-size: cover;
+}
+
+.card img {
+  object-fit: cover;
+  height: 250px
+}
+
