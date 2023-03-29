@@ -1,2 +1,2 @@
 # game-review-capstone-frontend
-[![Python][Python.org][Python-url]
+[![Python][Python.org][[https://www.python.org/]]
